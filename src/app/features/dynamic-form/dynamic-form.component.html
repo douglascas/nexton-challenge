@@ -1,0 +1,70 @@
+@if (activeRequest) {
+  <div class="dynamic-form-layout">
+    <!-- Left Sidebar: Page / Section Navigation -->
+    <aside class="sidebar-nav">
+      <nav class="pages-list" aria-label="Sections navigation">
+        @for (section of activeRequest.schema.sections; track section.id; let idx = $index) {
+          <button
+            type="button"
+            class="page-nav-item"
+            [class.active]="idx === currentSectionIndex"
+            [class.completed]="idx < currentSectionIndex"
+            (click)="goToSection(idx)"
+          >
+            <span class="page-title-text">Page {{ idx + 1 }}</span>
+          </button>
+        }
+      </nav>
+    </aside>
+
+    <!-- Right Main Content Area -->
+    <main class="main-form-area">
+      @if (currentSection && currentSectionGroup) {
+        <!-- Page Header & Autosave Status -->
+        <div class="page-header">
+          <h1 class="page-main-title">Page {{ currentSectionIndex + 1 }}</h1>
+          <div class="header-status">
+            <app-autosave-status [status]="saveStatus"></app-autosave-status>
+          </div>
+        </div>
+
+        <!-- Validation Error Banner -->
+        @if (hasValidationError) {
+          <div class="alert alert-error" role="alert">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18" class="alert-icon">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            <div class="alert-content">
+              <strong>Action required:</strong> Please correct the highlighted errors before proceeding.
+            </div>
+          </div>
+        }
+
+        <!-- Dynamic Fields Container -->
+        <form [formGroup]="currentSectionGroup" class="fields-form" (ngSubmit)="$event.preventDefault()">
+          @for (field of currentSection.fields; track field.id) {
+            <app-dynamic-field
+              [field]="field"
+              [control]="getFieldControl(field.id)"
+            ></app-dynamic-field>
+          }
+
+          <!-- Navigation Buttons -->
+          <app-form-navigation
+            [isFirstStep]="isFirstStep"
+            [isLastStep]="isLastStep"
+            [isSubmitting]="isSubmitting"
+            (previous)="onPrevious()"
+            (next)="onNext()"
+            (submitForm)="onSubmit()"
+          ></app-form-navigation>
+        </form>
+      }
+    </main>
+  </div>
+} @else {
+  <div class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading request form...</p>
+  </div>
+}

@@ -4,8 +4,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "types": [
-      "vitest/globals"
-    ]
+      "jest",
+      "node"
+    ],
+    "esModuleInterop": true
   },
   "include": [
     "src/**/*.d.ts",

@@ -1,0 +1,7 @@
+{
+  "html.autoClosingTags": true,
+  "typescript.autoClosingTags": true,
+  "javascript.autoClosingTags": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true
+}

@@ -1,0 +1,42 @@
+<div class="form-navigation-container">
+  <div class="action-left">
+    @if (!isFirstStep) {
+      <button
+        type="button"
+        class="btn btn-secondary"
+        [disabled]="isSubmitting"
+        (click)="onPrevious()"
+      >
+        <span>Previous</span>
+      </button>
+    }
+  </div>
+
+  <div class="action-right">
+    @if (!isLastStep) {
+      <!-- NEXT BUTTON -->
+      <button
+        type="button"
+        class="btn btn-next"
+        (click)="onNext()"
+      >
+        <span>NEXT</span>
+      </button>
+    } @else {
+      <!-- SUBMIT BUTTON -->
+      <button
+        type="button"
+        class="btn btn-submit"
+        [disabled]="isSubmitting"
+        (click)="onSubmit()"
+      >
+        @if (isSubmitting) {
+          <span class="btn-spinner"></span>
+          <span>SUBMITTING...</span>
+        } @else {
+          <span>SUBMIT</span>
+        }
+      </button>
+    }
+  </div>
+</div>

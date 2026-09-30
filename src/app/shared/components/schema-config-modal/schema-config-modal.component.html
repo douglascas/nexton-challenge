@@ -1,0 +1,253 @@
+<!-- Modal Overlay (Accessible via ⌘+Shift+P / Ctrl+Shift+P / F2) -->
+@if (isOpen) {
+  <div
+    class="modal-backdrop"
+    (click)="closeModal()"
+    (keydown.escape)="closeModal()"
+    tabindex="0"
+    role="presentation"
+    aria-hidden="true"
+  ></div>
+  <div
+    class="modal-dialog-wrapper"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-config-title"
+    (keydown.escape)="closeModal()"
+    tabindex="-1"
+  >
+    <div class="modal-dialog">
+      <!-- Modal Header -->
+      <header class="modal-header">
+        <div class="header-title-box">
+          <div class="modal-badge">Dynamic Form Schema Parametrization</div>
+          <h2 id="modal-config-title" class="modal-title">Customize Request Fields</h2>
+        </div>
+        <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close modal">
+          ✕
+        </button>
+      </header>
+
+      <!-- Schema Selector Tabs -->
+      <div class="schema-tabs-row">
+        <div class="schema-picker">
+          @for (schema of schemas; track schema.id) {
+            <button
+              type="button"
+              class="schema-tab-btn"
+              [class.active]="selectedSchemaId === schema.id"
+              (click)="onSelectSchema(schema.id)"
+            >
+              {{ schema.title }}
+            </button>
+          }
+        </div>
+
+        <!-- Mode Toggle: Visual vs JSON -->
+        <div class="mode-toggle">
+          <button
+            type="button"
+            class="mode-btn"
+            [class.active]="activeTab === 'visual'"
+            (click)="setTab('visual')"
+          >
+            Visual Builder
+          </button>
+          <button
+            type="button"
+            class="mode-btn"
+            [class.active]="activeTab === 'json'"
+            (click)="setTab('json')"
+          >
+            Raw JSON
+          </button>
+        </div>
+      </div>
+
+      <!-- Success Notification -->
+      @if (successMessage) {
+        <div class="notification-banner success-banner">
+          ✓ {{ successMessage }}
+        </div>
+      }
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        @if (activeTab === 'visual') {
+          <div class="visual-editor">
+            <!-- Schema Meta -->
+            <div class="meta-row">
+              <label class="form-label" for="schema-title-input">
+                Schema Title:
+              </label>
+              <input
+                id="schema-title-input"
+                type="text"
+                class="input-control"
+                [(ngModel)]="currentSchema.title"
+                (ngModelChange)="syncToJson()"
+              />
+            </div>
+
+            <!-- Sections / Pages -->
+            <div class="sections-container">
+              @for (section of currentSchema.sections; track section.id; let sIdx = $index) {
+                <div class="section-card">
+                  <div class="section-card-header">
+                    <div class="section-card-title-group">
+                      <span class="section-page-badge">Page {{ sIdx + 1 }}</span>
+                      <label [attr.for]="'section-title-' + sIdx" class="sr-only">Section Title</label>
+                      <input
+                        [id]="'section-title-' + sIdx"
+                        type="text"
+                        class="section-title-input"
+                        [(ngModel)]="section.title"
+                        (ngModelChange)="syncToJson()"
+                        placeholder="Section title"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      class="btn-delete-section"
+                      (click)="removeSection(sIdx)"
+                      title="Delete this page"
+                    >
+                      🗑️ Delete Page
+                    </button>
+                  </div>
+
+                  <!-- Fields list -->
+                  <div class="fields-list">
+                    @for (field of section.fields; track field.id; let fIdx = $index) {
+                      <div class="field-edit-row">
+                        <div class="field-col field-col-label">
+                          <label class="mini-label" [attr.for]="'field-label-' + sIdx + '-' + fIdx">Field Label</label>
+                          <input
+                            [id]="'field-label-' + sIdx + '-' + fIdx"
+                            type="text"
+                            class="input-control"
+                            [(ngModel)]="field.label"
+                            (ngModelChange)="syncToJson()"
+                            placeholder="Label"
+                          />
+                        </div>
+
+                        <div class="field-col field-col-type">
+                          <label class="mini-label" [attr.for]="'field-type-' + sIdx + '-' + fIdx">Type</label>
+                          <select
+                            [id]="'field-type-' + sIdx + '-' + fIdx"
+                            class="input-control select-control"
+                            [(ngModel)]="field.type"
+                            (ngModelChange)="onFieldTypeChange(field)"
+                          >
+                            <option value="text">Text</option>
+                            <option value="textarea">Long Text (Textarea)</option>
+                            <option value="number">Number</option>
+                            <option value="radio">Radio Options</option>
+                            <option value="toggle">Toggle (Switch)</option>
+                          </select>
+                        </div>
+
+                        <div class="field-col field-col-required">
+                          <label class="mini-label" [attr.for]="'field-req-' + sIdx + '-' + fIdx">Required?</label>
+                          <label class="checkbox-label" [attr.for]="'field-req-' + sIdx + '-' + fIdx">
+                            <input
+                              [id]="'field-req-' + sIdx + '-' + fIdx"
+                              type="checkbox"
+                              [(ngModel)]="field.required"
+                              (ngModelChange)="syncToJson()"
+                            />
+                            <span>Yes</span>
+                          </label>
+                        </div>
+
+                        @if (field.type === 'radio') {
+                          <div class="field-col field-col-options">
+                            <label class="mini-label" [attr.for]="'field-opt-' + sIdx + '-' + fIdx">Options (comma-separated)</label>
+                            <input
+                              [id]="'field-opt-' + sIdx + '-' + fIdx"
+                              type="text"
+                              class="input-control"
+                              [ngModel]="getOptionsString(field)"
+                              (ngModelChange)="setOptionsString(field, $event); syncToJson()"
+                              placeholder="e.g. Yes, No, Maybe"
+                            />
+                          </div>
+                        }
+
+                        <div class="field-col field-col-action">
+                          <button
+                            type="button"
+                            class="btn-remove-field"
+                            (click)="removeField(section, fIdx)"
+                            title="Remove field"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Add Field in Section -->
+                  <div class="section-actions">
+                    <button
+                      type="button"
+                      class="btn-add-field"
+                      (click)="addField(section)"
+                    >
+                      + Add Field to Page {{ sIdx + 1 }}
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <!-- Add Section / Page -->
+            <div class="add-section-row">
+              <button type="button" class="btn-add-section" (click)="addSection()">
+                + Add New Page (Section)
+              </button>
+            </div>
+          </div>
+        } @else {
+          <!-- Raw JSON Editor -->
+          <div class="json-editor">
+            <p class="json-desc">
+              Directly edit or paste the schema JSON below. Changes apply dynamically across the entire application.
+            </p>
+            @if (jsonError) {
+              <div class="notification-banner error-banner">
+                {{ jsonError }}
+              </div>
+            }
+            <label for="raw-json-textarea" class="sr-only">Raw JSON Schema</label>
+            <textarea
+              id="raw-json-textarea"
+              class="json-textarea"
+              [(ngModel)]="jsonCode"
+              rows="16"
+              spellcheck="false"
+            ></textarea>
+          </div>
+        }
+      </div>
+
+      <!-- Modal Footer Actions -->
+      <footer class="modal-footer">
+        <button type="button" class="btn-footer-reset" (click)="resetToDefaults()">
+          🔄 Reset to Defaults
+        </button>
+
+        <div class="footer-right">
+          <button type="button" class="btn-footer-cancel" (click)="closeModal()">
+            Cancel
+          </button>
+          <button type="button" class="btn-footer-save" (click)="saveChanges()">
+            💾 Save & Apply Changes
+          </button>
+        </div>
+      </footer>
+    </div>
+  </div>
+}
