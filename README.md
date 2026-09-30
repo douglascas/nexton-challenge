@@ -141,15 +141,22 @@ To reflect how modern high-performance engineering teams operate, several featur
 
 This project was built following the **Spec-Driven Development (SDD)** engineering methodology:
 
-- **Specification as the Single Source of Truth**: The entire project was planned, scaffolded, and implemented strictly against the technical specifications in [`documents/FE test.md`](documents/FE%20test.md).
-- **AI Agent Governance & Specialized Skills**: To guarantee non-negotiable architectural quality, domain-specific agent skills were defined under [`.agents/skills/`](.agents/skills/) to act as automated guardrails:
-  - [`constitution`](.agents/skills/constitution/SKILL.md): Supreme architectural governance and definition-of-done quality gates.
-  - [`angular-code-standards`](.agents/skills/angular-code-standards/SKILL.md): Enforces standalone components, modern control flow (`@if`, `@for`), and strict TypeScript.
-  - [`rxjs-state-management`](.agents/skills/rxjs-state-management/SKILL.md): Enforces declarative streams, debounced autosave pipelines, and subscription hygiene.
-  - [`vitest-angular-testing`](.agents/skills/vitest-angular-testing/SKILL.md) & Jest harness: Enforces 100% test pass rates and reactive form test patterns.
-  - [`pantone-design-system`](.agents/skills/pantone-design-system/SKILL.md): Enforces Pantone Teal/Emerald tokens and Figma spec fidelity.
-  - [`accessibility-a11y`](.agents/skills/accessibility-a11y/SKILL.md): Enforces keyboard navigation and WCAG AA compliance.
-  - [`commitizen`](.agents/skills/commitizen/SKILL.md): Enforces Conventional Commits across the Git history.
+#### 🎯 Strategic Alignment with Nexton's Purpose & Culture
+[Nexton](https://www.linkedin.com/company/nexton/) specializes in connecting top-tier LATAM tech talent with high-growth US/global engineering teams, championing **senior-level autonomy, architectural rigor, proactive problem solving, and modern engineering best practices**.
+
+In high-performance distributed environments, quality cannot be an afterthought or left to ad-hoc interpretations. The decision to take the initiative and structure this entire project under **Spec-Driven Development (SDD)** directly reflects Nexton's core ethos:
+- **Predictable & Auditable Delivery**: Requirements from [`documents/FE test.md`](documents/FE%20test.md) were treated as formal engineering contracts, translating every business rule into concrete, measurable validation gates.
+- **Proactive Senior Craftsmanship**: Going beyond minimal ticket fulfillment by establishing automated quality guardrails, enterprise error recovery, full test coverage, and reproducible containerization.
+
+#### 🛡️ AI Agent Governance & Specialized Quality Skills
+To enforce non-negotiable architectural standards throughout the implementation, specialized agent skills were defined under [`.agents/skills/`](.agents/skills/) to act as automated compliance guardrails:
+- [`constitution`](.agents/skills/constitution/SKILL.md): Supreme architectural governance, decision hierarchy, and definition-of-done quality gates.
+- [`angular-code-standards`](.agents/skills/angular-code-standards/SKILL.md): Enforces standalone components, modern control flow (`@if`, `@for`), and strict TypeScript.
+- [`rxjs-state-management`](.agents/skills/rxjs-state-management/SKILL.md): Enforces declarative streams, debounced autosave pipelines, and subscription hygiene.
+- [`vitest-angular-testing`](.agents/skills/vitest-angular-testing/SKILL.md) & Jest harness: Enforces 100% test pass rates and reactive form test patterns.
+- [`pantone-design-system`](.agents/skills/pantone-design-system/SKILL.md): Enforces Pantone Teal/Emerald tokens and Figma spec fidelity.
+- [`accessibility-a11y`](.agents/skills/accessibility-a11y/SKILL.md): Enforces keyboard navigation and WCAG AA compliance.
+- [`commitizen`](.agents/skills/commitizen/SKILL.md): Enforces Conventional Commits across the Git history.
 
 ---
 
