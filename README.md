@@ -1,6 +1,6 @@
 # Nexton Frontend Challenge — Dynamic Form Engine
 
-> An extensible, multi-step Request Submission Form application built with **Angular (Standalone Architecture)**, **Reactive Forms**, and **RxJS**, designed under the **Schema-Driven Development (SDD)** paradigm and styled according to the Pantone Teal / Emerald Design System.
+> An extensible, multi-step Request Submission Form application built with **Angular (Standalone Architecture)**, **Reactive Forms**, and **RxJS**, engineered under the **Spec-Driven Development (SDD)** methodology (guided by requirements specs and AI Agent governance) and powered by a runtime **Schema-Driven Form Engine** styled according to the Pantone Teal / Emerald Design System.
 
 ---
 
@@ -42,11 +42,12 @@ Navigate to `http://localhost:8080/` in your browser.
 - [Challenge Requirements Checklist](#-challenge-requirements-checklist)
 - [Beyond the Baseline: Value-Add Features & Justifications](#-beyond-the-baseline-value-add-features--justifications)
 - [Architectural Decisions & Approach](#-architectural-decisions--approach)
-  - [1. Schema-Driven Development (SDD)](#1-schema-driven-development-sdd)
-  - [2. Reactive State Management (RxJS)](#2-reactive-state-management-rxjs)
-  - [3. Enterprise Scalability & NgRx Roadmap](#3-enterprise-scalability--ngrx-roadmap)
-  - [4. Why Jest for Unit Testing](#4-why-jest-for-unit-testing)
-  - [5. Design System Fidelity & A11y](#5-design-system-fidelity--a11y)
+  - [1. Spec-Driven Development (SDD) & Agent Governance](#1-spec-driven-development-sdd--agent-governance)
+  - [2. Schema-Driven UI & Dynamic Form Engine](#2-schema-driven-ui--dynamic-form-engine)
+  - [3. Reactive State Management (RxJS)](#3-reactive-state-management-rxjs)
+  - [4. Enterprise Scalability & NgRx Roadmap](#4-enterprise-scalability--ngrx-roadmap)
+  - [5. Why Jest for Unit Testing](#5-why-jest-for-unit-testing)
+  - [6. Design System Fidelity & A11y](#6-design-system-fidelity--a11y)
 - [Project Structure](#-project-structure)
 - [Available Scripts](#-available-scripts)
 - [CI/CD & GitHub Actions Pipeline](#-cicd--github-actions-pipeline)
@@ -136,14 +137,30 @@ To reflect how modern high-performance engineering teams operate, several featur
 
 ## 🏛️ Architectural Decisions & Approach
 
-### 1. Schema-Driven Development (SDD)
+### 1. Spec-Driven Development (SDD) & Agent Governance
 
-Instead of hardcoding form layouts and inputs into individual component templates, the core of this project is built on **Schema-Driven Development (SDD)**:
+This project was built following the **Spec-Driven Development (SDD)** engineering methodology:
 
-- **Single Source of Truth**: The JSON schema defines the field types, labels, required rules, and section groupings.
+- **Specification as the Single Source of Truth**: The entire project was planned, scaffolded, and implemented strictly against the technical specifications in [`documents/FE test.md`](documents/FE%20test.md).
+- **AI Agent Governance & Specialized Skills**: To guarantee non-negotiable architectural quality, domain-specific agent skills were defined under [`.agents/skills/`](.agents/skills/) to act as automated guardrails:
+  - [`constitution`](.agents/skills/constitution/SKILL.md): Supreme architectural governance and definition-of-done quality gates.
+  - [`angular-code-standards`](.agents/skills/angular-code-standards/SKILL.md): Enforces standalone components, modern control flow (`@if`, `@for`), and strict TypeScript.
+  - [`rxjs-state-management`](.agents/skills/rxjs-state-management/SKILL.md): Enforces declarative streams, debounced autosave pipelines, and subscription hygiene.
+  - [`vitest-angular-testing`](.agents/skills/vitest-angular-testing/SKILL.md) & Jest harness: Enforces 100% test pass rates and reactive form test patterns.
+  - [`pantone-design-system`](.agents/skills/pantone-design-system/SKILL.md): Enforces Pantone Teal/Emerald tokens and Figma spec fidelity.
+  - [`accessibility-a11y`](.agents/skills/accessibility-a11y/SKILL.md): Enforces keyboard navigation and WCAG AA compliance.
+  - [`commitizen`](.agents/skills/commitizen/SKILL.md): Enforces Conventional Commits across the Git history.
+
+---
+
+### 2. Schema-Driven UI & Dynamic Form Engine
+
+While **Spec-Driven Development** governed the engineering *methodology*, the UI itself was built using the **Schema-Driven UI** *architectural pattern*:
+
+- **Runtime Dynamic Interpretation**: Instead of hardcoding static form layouts and inputs into individual component templates, the core form engine renders completely on the fly from JSON schemas.
 - **Separation of Concerns**: The rendering components (`DynamicFormComponent` and `DynamicFieldComponent`) are purely presentation-driven and completely agnostic of specific domain entities.
 - **Dynamic Form Generation**: [`FormFactoryService`](src/app/core/services/form-factory.service.ts) dynamically compiles the schema into an Angular `FormGroup` hierarchy, attaching appropriate validators (`Validators.required`, `Validators.min(0)`) at runtime.
-- **Extensibility**: Adding new question types or altering form structures requires only updating the JSON schema.
+- **Extensibility**: Adding new question types, reordering fields, or modifying sections requires updating only the JSON schema without altering component templates or rebuilding application bundles.
 
 ```json
 {
@@ -164,7 +181,7 @@ Instead of hardcoding form layouts and inputs into individual component template
 
 ---
 
-### 2. Reactive State Management (RxJS)
+### 3. Reactive State Management (RxJS)
 
 For the scope of this challenge, I adopted the **Service-with-Subject** pattern via [`RequestStateService`](src/app/core/services/request-state.service.ts):
 
@@ -189,7 +206,7 @@ For the scope of this challenge, I adopted the **Service-with-Subject** pattern 
 
 ---
 
-### 3. Enterprise Scalability & NgRx Roadmap
+### 4. Enterprise Scalability & NgRx Roadmap
 
 While the lightweight `BehaviorSubject` service fits the current requirements cleanly without adding unnecessary boilerplate, the system was designed with enterprise growth in mind.
 
@@ -219,7 +236,7 @@ As applications expand to support complex multi-tab drafts, offline sync with In
 
 ---
 
-### 4. Why Jest for Unit Testing
+### 5. Why Jest for Unit Testing
 
 **Jest** (`jest-preset-angular`) was chosen as the test runner for this project:
 
@@ -243,7 +260,7 @@ Tests:       27 passed, 27 total (100%)
 
 ---
 
-### 5. Design System Fidelity & A11y
+### 6. Design System Fidelity & A11y
 
 - **Pantone Teal / Emerald Design Tokens**: Defined in [`src/styles.scss`](src/styles.scss) (`--primary: #0f766e`, `--primary-light: #f0fdf9`, `--text-main: #0f2924`).
 - **Vanilla SCSS**: Handcrafted, modular component stylesheets without heavy external CSS frameworks or Tailwind.
