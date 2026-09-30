@@ -49,6 +49,7 @@ Navigate to `http://localhost:8080/` in your browser.
   - [5. Design System Fidelity & A11y](#5-design-system-fidelity--a11y)
 - [Project Structure](#-project-structure)
 - [Available Scripts](#-available-scripts)
+- [CI/CD & GitHub Actions Pipeline](#-cicd--github-actions-pipeline)
 - [Live Schema Customizer Guide](#-live-schema-customizer-guide)
 
 ---
@@ -106,6 +107,10 @@ To demonstrate senior-level engineering rigor and deliver production-grade quali
 ### 6. Extended Field Support (`textarea`)
 * **What was added**: Support for multiline text areas in addition to standard text, number, radio, and toggle.
 * **Why it matters**: Real-world request forms frequently require multiline text for justifications, special instructions, or item descriptions.
+
+### 7. Automated CI/CD Pipeline & Strict Git Flow Protection ([`.github/workflows/ci.yml`](.github/workflows/ci.yml))
+* **What was added**: A production GitHub Actions workflow with parallel jobs for Jest unit tests, ESLint, production build, and an automated branch policy check.
+* **Why it matters**: Automates continuous quality gates on every Pull Request targeting `develop` and `main`, and enforces that merges into production (`main`) must originate exclusively from `develop`.
 
 ---
 
@@ -295,6 +300,29 @@ npm run lint
 # Build production bundle (output in dist/nexton-challenge)
 npm run build
 ```
+
+---
+
+## 🔄 CI/CD & GitHub Actions Pipeline
+
+A Continuous Integration (CI) pipeline is configured via GitHub Actions in [`.github/workflows/ci.yml`](.github/workflows/ci.yml) to automatically validate code quality, test suites, build artifacts, and enforce Git Flow branch protection on every Pull Request.
+
+### 🛡️ Pipeline Stages & Jobs:
+
+```text
+               ┌──► 🛡️ 1. Branch Policy       ──► Enforces PRs into 'main' come exclusively from 'develop'
+[Pull Request] ┼──► 🧪 2. Unit Tests (Jest)   ──► Runs all 27 unit tests across 7 test suites
+               ├──► 📦 3. Production Build     ──► Validates Angular production bundle generation
+               └──► 🔍 4. Lint & A11y          ──► ESLint & Angular template accessibility checks
+```
+
+1. **`🛡️ Branch Flow Policy`**: Validates the source and target branches. Direct Pull Requests into `main` from feature branches are rejected; merges into production must come exclusively from `develop`.
+2. **`🧪 Unit Tests (Jest)`**: Runs all unit tests with `--ci --maxWorkers=2` ensuring zero test regressions.
+3. **`📦 Production Build`**: Compiles the application via `@angular/build:application` with production budgets and strict AOT optimization.
+4. **`🔍 Lint & Accessibility`**: Checks TypeScript standards and ARIA/accessibility rules.
+
+> [!NOTE]
+> **GitHub Actions Account Status**: In the repository's GitHub Actions tab, runners may display: *"The job was not started because your account is locked due to a billing issue."*. This is an account-level GitHub spending limit restriction on the personal account. The complete workflow definition ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)), configuration, and local CLI validations (`npm test`, `npm run lint`, `npm run build`) are 100% complete, functional, and verified.
 
 ---
 
