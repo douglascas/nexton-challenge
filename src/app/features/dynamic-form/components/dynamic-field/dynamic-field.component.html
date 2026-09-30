@@ -1,0 +1,96 @@
+<div class="field-container" [class.has-error]="isInvalid">
+  <!-- Field Label -->
+  <label class="field-label" [attr.for]="'field-' + field.id">
+    <span class="label-text">{{ field.label }}</span>
+    @if (field.required) {
+      <span class="required-star" aria-hidden="true">*</span>
+    }
+  </label>
+
+  <!-- Field Content based on type -->
+  <div class="field-input-wrapper">
+    @switch (field.type) {
+      <!-- TEXT FIELD -->
+      @case ('text') {
+        <input
+          [id]="'field-' + field.id"
+          type="text"
+          class="form-control"
+          [class.invalid]="isInvalid"
+          [formControl]="control"
+          [placeholder]="'Enter ' + field.label.toLowerCase()"
+        />
+      }
+
+      <!-- TEXTAREA / LONG TEXT FIELD -->
+      @case ('textarea') {
+        <textarea
+          [id]="'field-' + field.id"
+          class="form-control form-textarea"
+          [class.invalid]="isInvalid"
+          [formControl]="control"
+          [placeholder]="'Enter ' + field.label.toLowerCase()"
+          rows="4"
+        ></textarea>
+      }
+
+      <!-- NUMBER FIELD -->
+      @case ('number') {
+        <input
+          [id]="'field-' + field.id"
+          type="number"
+          class="form-control"
+          [class.invalid]="isInvalid"
+          [formControl]="control"
+          [placeholder]="'Enter ' + field.label.toLowerCase()"
+          min="0"
+        />
+      }
+
+      <!-- RADIO FIELD -->
+      @case ('radio') {
+        <div class="radio-group" role="radiogroup" [attr.aria-labelledby]="'field-' + field.id">
+          @for (option of field.options; track option) {
+            <label class="radio-option" [class.selected]="control.value === option">
+              <input
+                type="radio"
+                [name]="'radio-' + field.id"
+                [value]="option"
+                [formControl]="control"
+              />
+              <span class="custom-radio"></span>
+              <span class="radio-label">{{ option }}</span>
+            </label>
+          }
+        </div>
+      }
+
+      <!-- TOGGLE SWITCH FIELD -->
+      @case ('toggle') {
+        <div class="toggle-wrapper">
+          <label class="toggle-switch">
+            <input
+              type="checkbox"
+              [checked]="control.value"
+              (change)="onToggleChange($event)"
+            />
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="toggle-state-text">
+            {{ control.value ? 'Yes' : 'No' }}
+          </span>
+        </div>
+      }
+    }
+  </div>
+
+  <!-- Validation Error message -->
+  @if (isInvalid) {
+    <div class="error-message" role="alert">
+      <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" class="error-icon">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+      </svg>
+      <span>{{ errorMessage }}</span>
+    </div>
+  }
+</div>

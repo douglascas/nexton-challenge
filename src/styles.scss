@@ -1,1 +1,47 @@
-/* You can add global styles to this file, and also import other style files */
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --bg-color: #f8faf9;
+  --surface-card: #ffffff;
+  --text-main: #0f2924;
+  --text-muted: #4a6b65;
+  --text-subtle: #7a9a94;
+  --primary: #0f766e;
+  --primary-hover: #115e59;
+  --primary-active: #042f2e;
+  --primary-light: #f0fdf9;
+  --primary-subtle: #ccfbf1;
+  --primary-border: #99f6e4;
+  --accent: #14b8a6;
+  --accent-light: #e6f7f3;
+  --brand-gradient: linear-gradient(135deg, #0f766e, #14b8a6);
+  --brand-gradient-hover: linear-gradient(135deg, #115e59, #0d9488);
+  --success: #0d9488;
+  --success-light: #f0fdf9;
+  --danger: #dc2626;
+  --danger-light: #fef2f2;
+  --border-color: #e2ece9;
+  --border-color-hover: #b5d5cf;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}

@@ -1,0 +1,64 @@
+<div class="selector-page">
+  <main class="selector-card">
+    <h1 class="selector-title">What do you need to purchase?</h1>
+
+    @if (schemas$ | async; as schemas) {
+      <div class="schema-pills-group" role="radiogroup" aria-label="Purchase category">
+        @for (schema of schemas; track schema.id) {
+          <button
+            type="button"
+            class="schema-pill"
+            [class.selected]="selectedSchemaId === schema.id"
+            (click)="selectSchema(schema.id)"
+            [attr.aria-checked]="selectedSchemaId === schema.id"
+            role="radio"
+          >
+            <span class="pill-icon">
+              @if (schema.id === 'software-request') {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                  <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                  <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+                  <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+                  <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+                </svg>
+              } @else {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                  <rect x="2" y="3" width="20" height="5" rx="1.5"></rect>
+                  <rect x="2" y="9.5" width="20" height="5" rx="1.5"></rect>
+                  <rect x="2" y="16" width="20" height="5" rx="1.5"></rect>
+                  <circle cx="6" cy="5.5" r="1" fill="currentColor"></circle>
+                  <circle cx="6" cy="12" r="1" fill="currentColor"></circle>
+                  <circle cx="6" cy="18.5" r="1" fill="currentColor"></circle>
+                </svg>
+              }
+            </span>
+            <span class="pill-label">
+              {{ schema.id === 'software-request' ? 'Software' : schema.id === 'hardware-request' ? 'Hardware' : schema.title }}
+            </span>
+          </button>
+        }
+      </div>
+
+      <div class="action-container">
+        <button
+          type="button"
+          class="btn-start"
+          [disabled]="!selectedSchemaId || isCreating"
+          (click)="onStart()"
+        >
+          @if (isCreating) {
+            <span class="btn-spinner"></span>
+            <span>Starting...</span>
+          } @else {
+            <span>Start</span>
+          }
+        </button>
+      </div>
+    } @else {
+      <div class="loading-container">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+      </div>
+    }
+  </main>
+</div>

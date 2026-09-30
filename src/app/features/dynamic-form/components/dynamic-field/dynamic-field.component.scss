@@ -1,0 +1,252 @@
+.field-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border: 1px solid #e2ece9;
+  border-radius: 0.625rem;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    border-color: #cbd5d1;
+  }
+
+  &.has-error {
+    border-color: #fca5a5;
+    background-color: #fffafb;
+
+    .field-label {
+      color: var(--danger);
+    }
+  }
+}
+
+.field-label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #1e293b;
+  margin-bottom: 0.75rem;
+  user-select: none;
+
+  .required-star {
+    color: var(--danger);
+    font-size: 1rem;
+    line-height: 1;
+  }
+}
+
+.field-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Form text, number & textarea inputs */
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  font-family: inherit;
+  color: var(--text-main);
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: #94a3b8;
+  }
+
+  &:hover {
+    border-color: #94a3b8;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #109e7c;
+    box-shadow: 0 0 0 3px rgba(16, 158, 124, 0.15);
+  }
+
+  &.invalid {
+    border-color: var(--danger);
+    background-color: var(--danger-light);
+
+    &:focus {
+      border-color: #b91c1c;
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+    }
+  }
+}
+
+.form-textarea {
+  min-height: 100px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Radio Group */
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.radio-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.125rem;
+  border: 1.5px solid #d1d5db;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #334155;
+  transition: all 0.2s ease;
+  user-select: none;
+
+  input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .custom-radio {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #94a3b8;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+
+    &::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      transform: scale(0);
+      transition: transform 0.2s ease;
+    }
+  }
+
+  &:hover {
+    border-color: #94a3b8;
+    background-color: #f8fafc;
+  }
+
+  &.selected {
+    border-color: #109e7c;
+    background-color: #ffffff;
+    color: #109e7c;
+    font-weight: 600;
+
+    .custom-radio {
+      border-color: #109e7c;
+      background-color: #109e7c;
+
+      &::after {
+        transform: scale(1);
+      }
+    }
+  }
+}
+
+/* Toggle Switch */
+.toggle-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  cursor: pointer;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #d1e2de;
+    border-radius: 24px;
+    transition: all 0.25s ease;
+
+    &::before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+
+  input:checked + .toggle-slider {
+    background-color: #109e7c;
+
+    &::before {
+      transform: translateX(20px);
+    }
+  }
+
+  input:focus-visible + .toggle-slider {
+    box-shadow: 0 0 0 3px rgba(16, 158, 124, 0.25);
+  }
+}
+
+.toggle-state-text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+/* Error message */
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8125rem;
+  color: var(--danger);
+  margin-top: 0.5rem;
+  animation: fadeIn 0.2s ease;
+
+  .error-icon {
+    flex-shrink: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,131 @@
+.summary-page {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.summary-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #eef2f6;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  max-width: 580px;
+  width: 100%;
+  padding: 44px 44px 36px;
+  box-sizing: border-box;
+
+  @media (max-width: 600px) {
+    padding: 28px 20px 24px;
+    border-radius: 12px;
+  }
+}
+
+.summary-header {
+  text-align: center;
+
+  .cupcake-image {
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
+    margin: 0 auto 16px;
+    display: block;
+    transform: rotate(15deg);
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.06));
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    &:hover {
+      transform: rotate(15deg) scale(1.05);
+    }
+  }
+
+  .summary-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 6px;
+    letter-spacing: -0.02em;
+  }
+
+  .summary-subtitle {
+    font-size: 0.9375rem;
+    color: #8fa0b5;
+    margin: 0 0 32px;
+    font-weight: 400;
+  }
+}
+
+.summary-content {
+  .summary-section-title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: #334155;
+    margin: 0 0 8px;
+    text-align: left;
+  }
+}
+
+.summary-table {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 0;
+  border-bottom: 1px solid #f1f5f9;
+  gap: 1rem;
+
+  .question-label {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #1e293b;
+  }
+
+  .answer-value {
+    font-size: 0.9375rem;
+    font-weight: 400;
+    color: #1e293b;
+    text-align: right;
+
+    &.not-answered {
+      color: #b4bfcd;
+    }
+  }
+}
+
+.summary-actions {
+  margin-top: 36px;
+  display: flex;
+  justify-content: center;
+
+  .btn-complete-reset {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary, #1ea888);
+    color: #ffffff;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    padding: 12px 28px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    box-shadow: 0 2px 8px rgba(22, 163, 127, 0.25);
+
+    &:hover {
+      background-color: var(--primary-hover, #168d71);
+      box-shadow: 0 4px 14px rgba(22, 163, 127, 0.35);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}

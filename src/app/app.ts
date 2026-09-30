@@ -1,12 +1,11 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { SchemaConfigModalComponent } from './shared/components/schema-config-modal/schema-config-modal.component';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [RouterModule, RouterOutlet, SchemaConfigModalComponent],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',
 })
-export class App {
-  protected readonly title = signal('nexton-challenge');
-}
+export class App {}

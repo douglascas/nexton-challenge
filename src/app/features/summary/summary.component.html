@@ -1,0 +1,50 @@
+@if (activeRequest) {
+  <div class="summary-page">
+    <div class="summary-card">
+      <!-- Illustration & Header -->
+      <div class="summary-header">
+        <img
+          src="cupcake.png"
+          alt="Cupcake celebration"
+          class="cupcake-image"
+          width="160"
+          height="160"
+        />
+        <h1 class="summary-title">Awesome!</h1>
+        <p class="summary-subtitle">It works!</p>
+      </div>
+
+      <!-- Summary List -->
+      <div class="summary-content">
+        <h2 class="summary-section-title">Summary</h2>
+
+        <div class="summary-table">
+          @for (section of activeRequest.schema.sections; track section.id) {
+            @for (field of section.fields; track field.id) {
+              <div class="summary-row">
+                <span class="question-label">{{ field.label }}</span>
+                <span
+                  class="answer-value"
+                  [class.not-answered]="isFieldEmpty(activeRequest.answers[field.id])"
+                >
+                  {{ getFieldDisplayValue(field, activeRequest.answers[field.id]) }}
+                </span>
+              </div>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <div class="summary-actions">
+        <button
+          type="button"
+          class="btn-complete-reset"
+          (click)="onCreateNewRequest()"
+        >
+          Complete the flow and Reset
+        </button>
+      </div>
+    </div>
+  </div>
+}
