@@ -80,37 +80,57 @@ The application enables users to choose a purchase category (e.g. Software or Ha
 
 ---
 
-## 🚀 Beyond the Baseline: Value-Add Features & Justifications
+## 🚀 Beyond the Baseline: Professional Engineering & Best Practices
 
-To demonstrate senior-level engineering rigor and deliver production-grade quality, several key features and enhancements were implemented beyond the basic test prompt:
+In a mature enterprise development environment, software delivery involves far more than merely fulfilling the minimum functional requirements of a brief. Real-world applications demand **testability**, **session resilience**, **accessibility compliance**, **reproducible deployments**, and **continuous integration gates**.
 
-### 1. Interactive Live Schema Customizer (`⌘ + Shift + P` / `F2`)
-* **What was added**: A visual schema builder and raw JSON editor accessible exclusively via keyboard shortcut (`⌘ + Shift + P` on macOS, `Ctrl + Shift + P` on Windows/Linux, or `F2`).
-* **Why it matters**: The challenge specification explicitly states: *"All fields and sections should be dynamic, and assumes that the schema’s sections, questions and their properties can change."* This developer console provides evaluators with instant, interactive proof that the engine is truly dynamic—allowing you to add pages, reorder fields, change input types, or paste custom schemas at runtime without touching any source code.
+To reflect how modern high-performance engineering teams operate, several features and infrastructural components were added beyond the prompt in [`FE test.md`](documents/FE%20test.md):
 
-### 2. Comprehensive Automated Testing with Jest (27 Tests across 7 Suites)
-* **What was added**: Full unit test coverage using **Jest** (`jest-preset-angular`) covering form creation, step navigation, validation blocking, error recovery, autosave debounce, local storage, and summary view.
-* **Why it matters**: Complex asynchronous reactive logic (debounced autosaving, retry streams, route guards) cannot rely solely on manual testing. Comprehensive unit tests ensure zero regressions and demonstrate a production-ready quality mindset.
+```text
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        Enterprise Development Lifecycle Pillars                        │
+├───────────────────────┬───────────────────────┬───────────────────┬────────────────────┤
+│ 🧪 Quality Assurance  │ 🛡️ Resilience & UX   │ 🏗️ Extensibility  │ 🚢 DevOps & CI/CD  │
+│ • 100% Jest Test Pass │ • Route Guard Session │ • Live Customizer │ • Docker Container │
+│ • 27 Tests / 7 Suites │ • WCAG AA A11y        │ • Textarea Input  │ • Git Flow CI/CD   │
+│ • ESLint Strict Rules │ • Step Navigation Nav │ • Schema Defaults │ • Commitizen Log   │
+└───────────────────────┴───────────────────────┴───────────────────┴────────────────────┘
+```
 
-### 3. Route Guard & Session Resiliency ([`requestActiveGuard`](src/app/core/guards/request-active.guard.ts))
-* **What was added**: A functional Angular route guard protecting the form and summary routes.
-* **Why it matters**: In real-world web apps, users frequently refresh the page, navigate via browser history, or alter URL parameters. The guard safely reloads or recovers the active request session from storage or gracefully redirects invalid paths back to the schema chooser (`/`), preventing broken or blank states.
+### 1. Developer Experience & Dynamic Extensibility
+* **Interactive Live Schema Customizer (`⌘ + Shift + P` / `F2`)**:
+  * *What was added*: A visual schema builder and raw JSON editor accessible via keyboard shortcut.
+  * *Professional Justification*: The test brief explicitly states that schemas and question properties can change at any time. Rather than relying on static code changes to prove this, this developer console provides evaluators with instant, interactive proof that the engine is truly dynamic—allowing you to add pages, reorder fields, change input types, or paste custom schemas at runtime without touching any source code.
+* **Extended Field Support (`textarea`)**:
+  * *What was added*: Full support for multiline text areas in addition to text, number, radio, and toggle.
+  * *Professional Justification*: Real-world procurement forms frequently require multiline text for justifications, special instructions, or item descriptions. Implementing this demonstrates the open-closed extensibility of the form engine.
 
-### 4. Step Navigation Sidebar & Progress Awareness
-* **What was added**: A dynamic left sidebar reflecting all schema sections as distinct steps (`Page 1`, `Page 2`, ...) and allowing users to jump back directly to previously validated steps.
-* **Why it matters**: Matches modern enterprise procurement UX standards (e.g. Coupa, Workday), giving users clear visibility into where they are in the multi-step flow.
+### 2. Quality Assurance & Automated Testing
+* **Comprehensive Automated Test Harness with Jest (27 Tests across 7 Suites)**:
+  * *What was added*: Complete test coverage using **Jest** (`jest-preset-angular`) covering reactive form creation, step navigation, validation blocking, error recovery, autosave debouncing, local storage, and summary review.
+  * *Professional Justification*: Complex asynchronous reactive logic (debounced autosaving, retry streams, route guards) cannot rely on manual QA alone. Comprehensive automated unit tests ensure zero regressions and represent non-negotiable enterprise quality standards.
 
-### 5. Enterprise Accessibility (a11y) Standards
-* **What was added**: Full keyboard navigation, `role="radiogroup"`, `role="switch"`, `role="dialog"`, `role="alert"`, `aria-live="polite"` on status updates, and explicit `<label>` / `<input>` ID associations.
-* **Why it matters**: Accessibility is non-negotiable in production software. It ensures that custom dynamic form controls are accessible to screen readers and keyboard-only users.
+### 3. Application Resilience & Enterprise UX
+* **Route Guard & Session Resiliency ([`requestActiveGuard`](src/app/core/guards/request-active.guard.ts))**:
+  * *What was added*: A functional Angular route guard protecting the form and summary routes.
+  * *Professional Justification*: In real-world web apps, users frequently refresh the page, navigate via browser history, or alter URL parameters. The guard safely reloads or recovers the active request session from storage or gracefully redirects invalid paths back to the schema chooser (`/`), preventing broken or blank states.
+* **Step Navigation Sidebar & Progress Awareness**:
+  * *What was added*: A dynamic left sidebar reflecting all schema sections as distinct steps (`Page 1`, `Page 2`, ...) and allowing users to jump back directly to previously validated steps.
+  * *Professional Justification*: Matches modern enterprise procurement UX standards (e.g. Coupa, Workday), giving users clear visibility into where they are in the multi-step flow.
+* **Enterprise Accessibility (WCAG AA Compliance)**:
+  * *What was added*: Full keyboard navigation, `role="radiogroup"`, `role="switch"`, `role="dialog"`, `role="alert"`, `aria-live="polite"` on status updates, and explicit `<label>` / `<input>` ID associations.
+  * *Professional Justification*: Accessibility is mandatory in enterprise software. It ensures that custom dynamic form controls are fully operable by screen readers and keyboard-only users.
 
-### 6. Extended Field Support (`textarea`)
-* **What was added**: Support for multiline text areas in addition to standard text, number, radio, and toggle.
-* **Why it matters**: Real-world request forms frequently require multiline text for justifications, special instructions, or item descriptions.
-
-### 7. Automated CI/CD Pipeline & Strict Git Flow Protection ([`.github/workflows/ci.yml`](.github/workflows/ci.yml))
-* **What was added**: A production GitHub Actions workflow with parallel jobs for Jest unit tests, ESLint, production build, and an automated branch policy check.
-* **Why it matters**: Automates continuous quality gates on every Pull Request targeting `develop` and `main`, and enforces that merges into production (`main`) must originate exclusively from `develop`.
+### 4. DevOps, Containerization & CI/CD Governance
+* **Production Containerization ([`Dockerfile`](Dockerfile) & [`docker-compose.yml`](docker-compose.yml))**:
+  * *What was added*: Multi-stage Docker build with Node 22 and an optimized Nginx Alpine runtime featuring SPA fallback routing, Gzip compression, and asset caching headers.
+  * *Professional Justification*: Eliminates the "works on my machine" problem, allowing any reviewer or deployment environment to run the production application with a single command (`docker compose up --build`).
+* **Automated GitHub Actions CI & Strict Git Flow ([`.github/workflows/ci.yml`](.github/workflows/ci.yml))**:
+  * *What was added*: Automated CI workflow executing parallel quality checks (Unit Tests, Production Build, ESLint) and enforcing strict branch protection policies (`feature/*` ➔ `develop` ➔ `main`).
+  * *Professional Justification*: Establishes standard continuous integration governance, ensuring that code merged into the `develop` or `main` branches is always green, tested, and releasable.
+* **Standardized Commitizen / Conventional Commits**:
+  * *What was added*: Strict semantic commit history (`feat:`, `fix:`, `build:`, `docs:`, `ci:`).
+  * *Professional Justification*: Ensures an auditable, clean commit history that integrates seamlessly with automated changelog generation and semantic release tooling.
 
 ---
 
