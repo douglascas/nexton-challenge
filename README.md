@@ -6,7 +6,7 @@
 
 ## ⚡ Quick Start
 
-Get the project running locally in under a minute:
+### Local Development
 
 ```bash
 # 1. Install dependencies
@@ -20,6 +20,19 @@ npm test
 ```
 
 Navigate to `http://localhost:4200/` in your browser.
+
+### 🐳 Running with Docker
+
+```bash
+# Build and run container (served on port 8080)
+docker compose up --build
+
+# Or build and run standalone Docker image:
+docker build -t nexton-challenge .
+docker run -p 8080:80 nexton-challenge
+```
+
+Navigate to `http://localhost:8080/` in your browser.
 
 ---
 
